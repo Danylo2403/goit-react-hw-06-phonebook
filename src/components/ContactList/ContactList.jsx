@@ -1,26 +1,29 @@
-import React from 'react';
-import { Filter } from 'components/Filter/Filter';
 import { Contact } from 'components/Contact/Contact';
+import { Filter } from 'components/Filter/Filter';
+import { useSelector } from 'react-redux';
 
-export const ContactList = ({ contacts, filter, onUpdateFilter, onDelete }) => {
+export const ContactList = () => {
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
+
+  const filteredContacts = contacts.filter(item => {
+    return item.name.toLowerCase().includes(filter.toLowerCase());
+  });
+
   return (
-    <div>
+    <>
       <h2>Contacts</h2>
-      {/* Компонент для введення тексту фільтрації */}
-      <Filter onUpdateFilter={onUpdateFilter} />
-
-      {/* Список контактів, відфільтрований згідно з введеним текстом фільтрації */}
+      <Filter />
       <ul>
-        {contacts.map(contact => (
+        {filteredContacts.map(item => (
           <Contact
-            key={contact.id}
-            id={contact.id}
-            name={contact.name}
-            number={contact.number}
-            onDelete={onDelete}
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            number={item.number}
           />
         ))}
       </ul>
-    </div>
+    </>
   );
 };

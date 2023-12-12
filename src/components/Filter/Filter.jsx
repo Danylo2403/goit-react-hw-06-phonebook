@@ -1,14 +1,16 @@
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { updateFilter } from '../../redux/filterSlice';
 
-export const Filter = ({ onUpdateFilter }) => {
-  const handleChange = (evt) => {
-    onUpdateFilter(evt.target.value);
-  };
+export const Filter = () => {
+  const dispatch = useDispatch();
 
   return (
     <>
-      <p>Find contacts by name</p>
-      <input type="text" onChange={handleChange} />
+      <p>Find contacts</p>
+      <input
+        type="text"
+        onChange={evt => dispatch(updateFilter(evt.target.value))}
+      />
     </>
   );
 };
